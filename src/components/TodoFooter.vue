@@ -1,0 +1,37 @@
+<script setup>
+    import { computed } from 'vue';
+    const props=defineProps({
+        todoList:{
+            type:Array,
+            default:()=>[]
+        }
+    })
+    const emits=defineEmits()
+    //基于接收到的数组筛选未完成的
+    const unfinishedTodos=computed(()=>{
+        return props.todoList.filter(item=>!item.finished).length
+    })
+
+    const clearCompleted=()=>{
+        emits('clearCompleted')
+    }
+</script>
+<template>
+  <footer class="footer">
+    <span class="todo-count"><strong>{{ unfinishedTodos }}</strong> item left</span>
+    <ul class="filters">
+      <li>
+        <a href="#/" class="selected">All</a>
+      </li>
+      <li>
+        <a href="#/active">Active</a>
+      </li>
+      <li>
+        <a href="#/completed">Completed</a>
+      </li>
+    </ul>
+    <button class="clear-completed" @click="clearCompleted">
+      Clear completed
+    </button>
+  </footer>
+</template>
